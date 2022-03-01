@@ -33,7 +33,7 @@ const Auth = () => {
         isValid: false,
       },
     },
-    false
+    false,
   );
 
   const switchModeHandler = () => {
@@ -43,7 +43,7 @@ const Auth = () => {
           ...formState.inputs,
           name: undefined,
         },
-        formState.inputs.email.isValid && formState.inputs.password.isValid
+        formState.inputs.email.isValid && formState.inputs.password.isValid,
       );
     } else {
       setFormData(
@@ -54,21 +54,44 @@ const Auth = () => {
             isValid: false,
           },
         },
-        false
+        false,
       );
     }
 
-    setIsLoginMode((prevMode) => !prevMode);
+    setIsLoginMode(prevMode => !prevMode);
   };
 
-  const authSubmitHandler = async (event) => {
+  const authSubmitHandler = async event => {
     event.preventDefault();
 
+    setIsLoading(true);
+
     if (isLoginMode) {
-      //
+      try {
+        const response = await fetch('http://localhost:5000/api/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) throw new Error(responseData.message);
+
+        setIsLoading(false);
+        auth.login();
+      } catch (err) {
+        console.log(err);
+        setIsLoading(false);
+        setError(err.message || 'Something went wrong, please try again');
+      }
     } else {
       try {
-        setIsLoading(true);
         const response = await fetch('http://localhost:5000/api/users/signup', {
           method: 'POST',
           headers: {
@@ -82,10 +105,9 @@ const Auth = () => {
         });
 
         const responseData = await response.json();
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
-        console.log(responseData);
+
+        if (!response.ok) throw new Error(responseData.message);
+
         setIsLoading(false);
         auth.login();
       } catch (err) {
