@@ -7,7 +7,7 @@ import { AuthContext } from '../../shared/context/auth-context';
 import './PlaceList.css';
 
 // props = loadedPlaces array
-const PlaceList = (props) => {
+const PlaceList = props => {
   const auth = useContext(AuthContext);
 
   if (props.items.length === 0) {
@@ -23,11 +23,11 @@ const PlaceList = (props) => {
 
   return (
     <ul className="place-list">
-      {props.items.map((place) => (
+      {props.items.map(place => (
         <PlaceItem
           key={place.id}
           id={place.id}
-          image={place.imageUrl}
+          image={place.image}
           title={place.title}
           description={place.description}
           address={place.address}
