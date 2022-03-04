@@ -16,17 +16,19 @@ const UserPlaces = () => {
     const fetchPlaces = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/places/user/${userId}`
+          `http://localhost:5000/api/places/user/${userId}`,
         );
         setLoadedPlaces(responseData.places);
-      } catch (err) {}
+      } catch (err) {
+        setLoadedPlaces([]);
+      }
     };
     fetchPlaces();
   }, [sendRequest, userId]);
 
-  const placeDeletedHandler = (deletedPlaceId) => {
-    setLoadedPlaces((prevPlaces) =>
-      prevPlaces.filter((place) => place.id !== deletedPlaceId)
+  const placeDeletedHandler = deletedPlaceId => {
+    setLoadedPlaces(prevPlaces =>
+      prevPlaces.filter(place => place.id !== deletedPlaceId),
     );
   };
 
