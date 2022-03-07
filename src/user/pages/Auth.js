@@ -10,6 +10,7 @@ import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import Card from '../../shared/components/UIElements/Card';
 import { useForm } from '../../shared/hooks/form-hook';
 import { useHttpClient } from '../../shared/hooks/http-hook';
@@ -33,7 +34,7 @@ const Auth = () => {
         isValid: false,
       },
     },
-    false,
+    false
   );
 
   const switchModeHandler = () => {
@@ -43,7 +44,7 @@ const Auth = () => {
           ...formState.inputs,
           name: undefined,
         },
-        formState.inputs.email.isValid && formState.inputs.password.isValid,
+        formState.inputs.email.isValid && formState.inputs.password.isValid
       );
     } else {
       setFormData(
@@ -54,14 +55,14 @@ const Auth = () => {
             isValid: false,
           },
         },
-        false,
+        false
       );
     }
 
-    setIsLoginMode(prevMode => !prevMode);
+    setIsLoginMode((prevMode) => !prevMode);
   };
 
-  const authSubmitHandler = async event => {
+  const authSubmitHandler = async (event) => {
     event.preventDefault();
 
     if (isLoginMode) {
@@ -75,7 +76,7 @@ const Auth = () => {
           }),
           {
             'Content-Type': 'application/json',
-          },
+          }
         );
         auth.login(responseData.user.id);
       } catch (err) {
@@ -93,7 +94,7 @@ const Auth = () => {
           }),
           {
             'Content-Type': 'application/json',
-          },
+          }
         );
 
         auth.login(responseData.user.id);
@@ -122,9 +123,10 @@ const Auth = () => {
               onInput={inputHandler}
             />
           )}
+          {!isLoginMode && <ImageUpload center id="image" />}
           <Input
-            id="email"
             element="input"
+            id="email"
             type="email"
             label="Email Address"
             validators={[VALIDATOR_EMAIL()]}
