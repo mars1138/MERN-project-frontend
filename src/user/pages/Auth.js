@@ -34,7 +34,7 @@ const Auth = () => {
         isValid: false,
       },
     },
-    false
+    false,
   );
 
   const switchModeHandler = () => {
@@ -45,7 +45,7 @@ const Auth = () => {
           name: undefined,
           image: undefined,
         },
-        formState.inputs.email.isValid && formState.inputs.password.isValid
+        formState.inputs.email.isValid && formState.inputs.password.isValid,
       );
     } else {
       setFormData(
@@ -61,14 +61,14 @@ const Auth = () => {
           },
         },
 
-        false
+        false,
       );
     }
 
-    setIsLoginMode((prevMode) => !prevMode);
+    setIsLoginMode(prevMode => !prevMode);
   };
 
-  const authSubmitHandler = async (event) => {
+  const authSubmitHandler = async event => {
     event.preventDefault();
 
     console.log(formState.input);
@@ -84,9 +84,9 @@ const Auth = () => {
           }),
           {
             'Content-Type': 'application/json',
-          }
+          },
         );
-        auth.login(responseData.user.id);
+        auth.login(responseData.userId, responseData.token);
       } catch (err) {
         // error handled in custom hook
       }
@@ -100,10 +100,10 @@ const Auth = () => {
         const responseData = await sendRequest(
           'http://localhost:5000/api/users/signup',
           'POST',
-          formData
+          formData,
         );
 
-        auth.login(responseData.user.id);
+        auth.login(responseData.userId, responseData.token);
       } catch (err) {
         //
       }
