@@ -34,14 +34,14 @@ const UpdatePlace = () => {
         isValid: false,
       },
     },
-    false,
+    false
   );
 
   useEffect(() => {
     const fetchPlace = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/places/${placeId}`,
+          `${process.env.REACT_APP_BACKEND_URL}/places/${placeId}`
         );
         setLoadedPlace(responseData.place);
         setFormData(
@@ -55,19 +55,19 @@ const UpdatePlace = () => {
               isValid: true,
             },
           },
-          true,
+          true
         );
       } catch (err) {}
     };
     fetchPlace();
   }, [sendRequest, placeId, setFormData]);
 
-  const placeUpdateSubmitHandler = async event => {
+  const placeUpdateSubmitHandler = async (event) => {
     event.preventDefault();
     console.log('formState.inputs: ', formState.inputs);
     try {
       await sendRequest(
-        `http://localhost:5000/api/places/${placeId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/places/${placeId}`,
         'PATCH',
         JSON.stringify({
           title: formState.inputs.title.value,
@@ -76,7 +76,7 @@ const UpdatePlace = () => {
         {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + auth.token,
-        },
+        }
       );
       history.push('/' + auth.userId + '/places');
     } catch (err) {}

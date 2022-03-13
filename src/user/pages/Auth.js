@@ -34,7 +34,7 @@ const Auth = () => {
         isValid: false,
       },
     },
-    false,
+    false
   );
 
   const switchModeHandler = () => {
@@ -45,7 +45,7 @@ const Auth = () => {
           name: undefined,
           image: undefined,
         },
-        formState.inputs.email.isValid && formState.inputs.password.isValid,
+        formState.inputs.email.isValid && formState.inputs.password.isValid
       );
     } else {
       setFormData(
@@ -61,14 +61,14 @@ const Auth = () => {
           },
         },
 
-        false,
+        false
       );
     }
 
-    setIsLoginMode(prevMode => !prevMode);
+    setIsLoginMode((prevMode) => !prevMode);
   };
 
-  const authSubmitHandler = async event => {
+  const authSubmitHandler = async (event) => {
     event.preventDefault();
 
     console.log(formState.input);
@@ -76,7 +76,7 @@ const Auth = () => {
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
-          'http://localhost:5000/api/users/login',
+          process.env.REACT_APP_BACKEND_URL + '/users/login',
           'POST',
           JSON.stringify({
             email: formState.inputs.email.value,
@@ -84,7 +84,7 @@ const Auth = () => {
           }),
           {
             'Content-Type': 'application/json',
-          },
+          }
         );
         auth.login(responseData.userId, responseData.token);
       } catch (err) {
@@ -98,9 +98,9 @@ const Auth = () => {
         formData.append('password', formState.inputs.password.value);
         formData.append('image', formState.inputs.image.value);
         const responseData = await sendRequest(
-          'http://localhost:5000/api/users/signup',
+          process.env.REACT_APP_BACKEND_URL + '/users/signup',
           'POST',
-          formData,
+          formData
         );
 
         auth.login(responseData.userId, responseData.token);
