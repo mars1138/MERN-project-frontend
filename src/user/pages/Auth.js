@@ -72,11 +72,11 @@ const Auth = () => {
     event.preventDefault();
     let url;
 
-    console.log(formState.input);
+    console.log(formState.inputs);
 
     if (isLoginMode) {
       try {
-        url = process.env.REACT_APP_BACKEND_URL + '/users/login'
+        url = process.env.REACT_APP_BACKEND_URL + '/users/login';
 
         const responseData = await sendRequest(
           url,
@@ -95,17 +95,13 @@ const Auth = () => {
       }
     } else {
       try {
-        url = process.env.REACT_APP_BACKEND_URL + '/users/signup'
+        url = process.env.REACT_APP_BACKEND_URL + '/users/signup';
         const formData = new FormData();
         formData.append('email', formState.inputs.email.value);
         formData.append('name', formState.inputs.name.value);
         formData.append('password', formState.inputs.password.value);
         formData.append('image', formState.inputs.image.value);
-        const responseData = await sendRequest(
-          url,
-          'POST',
-          formData
-        );
+        const responseData = await sendRequest(url, 'POST', formData);
 
         auth.login(responseData.userId, responseData.token);
       } catch (err) {
